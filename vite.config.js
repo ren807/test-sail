@@ -14,9 +14,6 @@ export default defineConfig({
             '$': 'jQuery'
         },
     },
-    server: {
-        https: true,
-    },
     build: {
         publicPath: '/build/',
     },
