@@ -12,7 +12,7 @@ php artisan route:cache
 # php artisan migrate --force
 
 echo "Installing npm dependencies..."
-npm install --omit=dev
+npm install
 
 echo "Building assets with Vite..."
 npm run build
