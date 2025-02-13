@@ -1,9 +1,8 @@
 FROM richarvey/nginx-php-fpm:3.1.6
 
-COPY . .
+RUN apk add --no-cache nodejs npm
 
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y nodejs
+COPY . .
 
 # Image config
 ENV SKIP_COMPOSER 1
