@@ -13,5 +13,11 @@ export default defineConfig({
         alias: {
             '$': 'jQuery'
         },
-    }
+    },
+    server: {
+        https: true,
+    },
+    build: {
+        publicPath: '/build/',
+    },
 });
