@@ -14,5 +14,8 @@ php artisan route:cache
 echo "Installing npm dependencies..."
 npm install
 
+echo "Installing jQuery..."
+npm install jquery
+
 echo "Building assets with Vite..."
 npm run build
