@@ -1,22 +1,24 @@
-FROM richarvey/nginx-php-fpm:3.1.6
+# 基本となるイメージを選択
+FROM php:8.4-fpm
 
-RUN apk add --no-cache nodejs npm
+# 必要な依存関係のインストール
+RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip git curl unzip
 
+# Composer のインストール
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Node.js のインストール (必要に応じて)
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+
+# 作業ディレクトリの設定
+WORKDIR /var/www
+
+# プロジェクトファイルをコンテナ内にコピー
 COPY . .
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# Composer と NPM の依存関係をインストール
+RUN composer install --no-dev --optimize-autoloader
+RUN npm install && npm run prod
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
-
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-CMD ["/start.sh"]
+# エントリーポイントを指定 (Laravel Sail の実行)
+CMD ["php-fpm"]
