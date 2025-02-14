@@ -18,7 +18,7 @@ COPY . .
 
 # Composer と NPM の依存関係をインストール
 RUN composer install --no-dev --optimize-autoloader
-RUN npm install && npm run prod
+RUN npm install && npm run build
 
 # エントリーポイントを指定 (Laravel Sail の実行)
 CMD ["php-fpm"]
