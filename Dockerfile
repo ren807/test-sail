@@ -34,4 +34,4 @@ RUN npm install && npm run build
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # エントリーポイントを指定 (Laravel Sail の実行)
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8000}"]
+ENTRYPOINT ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT:-8000}"]
