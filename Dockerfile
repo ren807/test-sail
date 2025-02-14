@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     curl \
     unzip \
     bash \
-    nodejs=20.8.1-r0 \
+    nodejs \
     npm
 
 # Composer のインストール
