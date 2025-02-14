@@ -17,9 +17,6 @@ RUN apk add --no-cache \
 # Composer のインストール
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Node.js のインストール (必要に応じて)
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs
-
 # 作業ディレクトリの設定
 WORKDIR /var/www
 
