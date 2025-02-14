@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Node.js のインストール (必要に応じて)
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
 
 # 作業ディレクトリの設定
 WORKDIR /var/www
