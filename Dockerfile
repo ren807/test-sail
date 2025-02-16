@@ -1,5 +1,5 @@
 # 基本となるイメージを選択
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm-alpine AS php-fpm
 
 # 必要な依存関係をインストール
 RUN apk add --no-cache \
@@ -33,5 +33,21 @@ RUN npm install && npm run build
 # Laravelキャッシュの作成
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# エントリーポイントを指定 (Laravel Sail の実行)
-CMD ["php-fpm"]
+# Nginxステージ
+FROM nginx:1.25-alpine AS nginx
+
+# 作業ディレクトリの設定
+WORKDIR /var/www
+
+# PHP-FPMステージからプロジェクトをコピー
+COPY --from=php-fpm /var/www /var/www
+
+# Nginxの設定をコピー
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# ポート設定
+ENV PORT 8000
+EXPOSE 8000
+
+# コンテナ起動時のコマンド
+CMD ["nginx", "-g", "daemon off;"]
