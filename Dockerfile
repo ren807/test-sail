@@ -31,6 +31,7 @@ RUN npm install && npm run build
 # Laravelキャッシュの作成
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-CMD php artisan serve --port=$PORT
+# php-fpm をバックグラウンドで起動し、artisan serve を使う
+CMD ["sh", "-c", "php-fpm & php artisan serve --host=0.0.0.0 --port=$PORT"]
 
 EXPOSE 8000
