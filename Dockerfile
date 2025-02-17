@@ -31,6 +31,6 @@ RUN npm install && npm run build
 # Laravelキャッシュの作成
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-CMD php artisan serve
+CMD php artisan serve --port=$PORT
 
 EXPOSE 8000
