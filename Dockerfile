@@ -50,14 +50,14 @@ WORKDIR /var/www
 COPY --from=php-fpm /var/www /var/www
 
 # Nginxの設定テンプレートをコピー
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # ポート設定
 ENV PORT 8000
 EXPOSE 8000
 
 # 環境変数を適用して nginx.conf を生成
-RUN envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+RUN envsubst '${PORT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf
 
 # スクリプトで PHP-FPM と Nginx を両方起動
 CMD sh -c "php-fpm & nginx -g 'daemon off;'"
