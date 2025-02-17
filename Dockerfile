@@ -24,12 +24,14 @@ COPY . .
 
 # Composer と NPM の依存関係をインストール
 RUN composer install
-COPY package*.json ./
+
+# NPM の依存関係をインストールしてビルド
 RUN npm install && npm run build
 
 # Laravelキャッシュの作成
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# PHP-FPMを起動する
+CMD ["php-fpm"]
 
 EXPOSE 8000
