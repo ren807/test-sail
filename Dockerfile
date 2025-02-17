@@ -29,10 +29,10 @@ RUN composer install
 # NPM の依存関係をインストールしてビルド
 RUN npm install && npm run build
 
-# Laravelキャッシュの作成
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+# jQueryをインストール
+RUN npm install jquery && npm run build
 
-# php-fpm をバックグラウンドで起動し、artisan serve を使う
+# artisan serve を使う
 CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=$PORT"]
 
 EXPOSE 8000

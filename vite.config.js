@@ -6,16 +6,11 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
-            manifest: true,
         }),
     ],
     resolve: {
         alias: {
             '$': 'jQuery'
         },
-    },
-    build: {
-        publicPath: '/build/',
-        outDir: 'public/build',
-    },
+    }
 });
