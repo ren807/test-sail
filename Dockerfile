@@ -31,7 +31,6 @@ RUN npm install && npm run build
 # Laravelキャッシュの作成
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
-# PHP-FPMを起動する
-CMD ["php-fpm"]
+CMD php artisan serve
 
 EXPOSE 8000
