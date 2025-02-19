@@ -11,14 +11,4 @@ export default defineConfig({
     optimizeDeps: {
         include: ['jquery']
     },
-    build: {
-        rollupOptions: {
-            external: [],
-            output: {
-                manualChunks: {
-                  'vendor': ['jquery'], // jQuery を `vendor.js` に分離
-                }
-            }
-        }
-    }
 });
