@@ -29,9 +29,6 @@ RUN composer install
 # NPM の依存関係をインストールしてビルド
 RUN npm install && npm run build
 
-# jQueryをインストール
-RUN npm install jquery && npm run build
-
 # artisan serve を使う
 CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=$PORT"]
 
