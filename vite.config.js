@@ -8,7 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    optimizeDeps: {
-        include: ['jquery']
+    build: {
+        outDir: 'public/build',
     },
 });
