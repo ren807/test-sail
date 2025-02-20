@@ -1,3 +1,4 @@
+# PHP-FPM のインストール
 FROM php:8.4-fpm-alpine AS php-fpm
 
 # 必要な依存関係をインストール
@@ -11,7 +12,8 @@ RUN apk add --no-cache \
     unzip \
     bash \
     nodejs \
-    npm
+    npm \
+    nginx
 
 # Composer のインストール
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -24,13 +26,16 @@ COPY . .
 
 # Composer と NPM の依存関係をインストール
 RUN composer install
-
-# NPM の依存関係をインストールしてビルド
 RUN npm install && npm run build
 
-# artisan serve を使う
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=$PORT"]
+# キャッシュをクリアして最適化
+RUN php artisan config:cache && php artisan optimize
 
-RUN php artisan config:clear && php artisan cache:clear && php artisan view:clear && php artisan route:clear
+# Nginx 設定をコンテナにコピー
+COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8000
+# nginx と php-fpm を起動する
+CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
+
+# ポート 80 を公開
+EXPOSE 80
