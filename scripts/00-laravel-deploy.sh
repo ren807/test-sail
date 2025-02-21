@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 echo "Running composer"
+composer global require hirak/prestissimo
 composer install --no-dev --working-dir=/var/www/html
 
 echo "Caching config..."
@@ -10,12 +11,6 @@ php artisan route:cache
 
 # echo "Running migrations..."
 # php artisan migrate --force
-
-echo "Installing npm dependencies..."
-npm install
-
-echo "Installing jQuery..."
-npm install jquery
 
 echo "Building assets with Vite..."
 npm run build

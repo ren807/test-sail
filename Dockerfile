@@ -1,41 +1,21 @@
-# PHP-FPM のインストール
-FROM php:8.4-fpm-alpine AS php-fpm
+# richarvey/nginx-php-fpmをベースとする
+FROM richarvey/nginx-php-fpm:2.1.2
 
-# 必要な依存関係をインストール
-RUN apk add --no-cache \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    zip \
-    git \
-    curl \
-    unzip \
-    bash \
-    nodejs \
-    npm \
-    nginx
-
-# Composer のインストール
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# 作業ディレクトリの設定
-WORKDIR /var/www
-
-# プロジェクトファイルをコンテナ内にコピー
 COPY . .
 
-# Composer と NPM の依存関係をインストール
-RUN composer install
-RUN npm install && npm run build
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# キャッシュをクリアして最適化
-RUN php artisan config:cache && php artisan optimize
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Nginx 設定をコンテナにコピー
-COPY nginx.conf /etc/nginx/nginx.conf
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# nginx と php-fpm を起動する
-CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
-
-# ポート 80 を公開
-EXPOSE 80
+CMD ["/start.sh"]
