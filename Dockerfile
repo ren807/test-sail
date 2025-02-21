@@ -4,6 +4,9 @@ FROM richarvey/nginx-php-fpm:2.1.2
 # 最新の Node.js と npm をインストール
 RUN apk add --no-cache nodejs-current npm
 
+# タイムゾーン設定
+RUN echo "Asia/Tokyo" > /etc/TZ
+
 # 作業ディレクトリを設定
 WORKDIR /var/www/html
 
