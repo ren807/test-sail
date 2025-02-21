@@ -1,8 +1,13 @@
 # richarvey/nginx-php-fpmをベースとする
 FROM richarvey/nginx-php-fpm:2.1.2
 
-# Node.js と npm をインストール
-RUN apk add --no-cache nodejs npm
+# Node.js 22 をインストール
+RUN apk add --no-cache curl bash \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apk add --no-cache nodejs npm
+
+# 作業ディレクトリを設定
+WORKDIR /var/www/html
 
 COPY . .
 
