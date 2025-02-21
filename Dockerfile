@@ -1,6 +1,9 @@
 # richarvey/nginx-php-fpmをベースとする
 FROM richarvey/nginx-php-fpm:2.1.2
 
+# Node.js と npm をインストール
+RUN apk add --no-cache nodejs npm
+
 COPY . .
 
 # Image config
@@ -17,5 +20,8 @@ ENV LOG_CHANNEL stderr
 
 # Allow composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER 1
+
+# Vite ビルドを実行
+RUN npm install && npm run build
 
 CMD ["/start.sh"]

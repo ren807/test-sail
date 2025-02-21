@@ -11,6 +11,3 @@ php artisan route:cache
 
 # echo "Running migrations..."
 # php artisan migrate --force
-
-echo "Building assets with Vite..."
-npm run build
